@@ -82,11 +82,13 @@ bridge-domain 1100
 !
 interface Loopback1100
  vrf forwarding BLUE
- ip address 10.100.0.1 255.255.255.0
+ ip address 10.100.1.1 255.255.255.0
 !
 interface BDI1100
  vrf forwarding BLUE
  ip unnumbered loopback1100
+ no shutdown
+
 !
 interface nve1
  member vni 1601100 vrf BLUE
@@ -117,11 +119,13 @@ bridge-domain 1200
 !
 interface Loopback1200
  vrf forwarding RED
- ip address 10.100.0.1 255.255.255.0
+ ip address 10.100.2.1 255.255.255.0
 !
 interface BDI1200
  vrf forwarding RED
  ip unnumbered loopback1200
+ no shutdown
+
 !
 interface nve1
  member vni 1601200 vrf RED
@@ -152,11 +156,13 @@ bridge-domain 1300
 !
 interface Loopback1300
  vrf forwarding GREEN
- ip address 10.100.0.1 255.255.255.0
+ ip address 10.100.3.1 255.255.255.0
 !
 interface BDI1300
  vrf forwarding GREEN
  ip unnumbered loopback1300
+ no shutdown
+
 !
 interface nve1
  member vni 1601300 vrf GREEN
