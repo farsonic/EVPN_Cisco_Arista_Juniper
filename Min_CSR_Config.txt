@@ -47,7 +47,7 @@ router bgp 65022
   neighbor 172.16.0.1 soft-reconfiguration inbound
  exit-address-family
  !
- address-family ipv4 vrf SERVER
+ address-family ipv4 vrf BLUE
   advertise l2vpn evpn
   redistribute connected
  exit-address-family
@@ -66,7 +66,7 @@ interface nve1
 ! VRF Configuration
 ! ========================================
 !
-vrf definition SERVER
+vrf definition BLUE
  rd 172.16.0.2:1100
  !
  address-family ipv4
@@ -81,19 +81,19 @@ bridge-domain 1100
  no shutdown
 !
 interface Loopback1100
- vrf forwarding SERVER
+ vrf forwarding BLUE
  ip address 10.100.0.1 255.255.255.0
 !
 interface BDI1100
- vrf forwarding SERVER
+ vrf forwarding BLUE
  ip address 33.33.33.1 255.255.255.0
 !
 interface nve1
- member vni 1601100 vrf SERVER
+ member vni 1601100 vrf BLUE
 !
 router bgp 65022
  !
- address-family ipv4 vrf SERVER
+ address-family ipv4 vrf BLUE
   advertise l2vpn evpn
   redistribute connected
   end
