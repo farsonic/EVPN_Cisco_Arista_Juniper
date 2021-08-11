@@ -63,7 +63,7 @@ interface nve1
 !
 !
 ! ========================================
-! VRF Configuration
+! VRF BLUE Configuration
 ! ========================================
 !
 vrf definition BLUE
@@ -86,7 +86,7 @@ interface Loopback1100
 !
 interface BDI1100
  vrf forwarding BLUE
- ip address 33.33.33.1 255.255.255.0
+ ip unnumbered loopback1100
 !
 interface nve1
  member vni 1601100 vrf BLUE
@@ -94,6 +94,76 @@ interface nve1
 router bgp 65022
  !
  address-family ipv4 vrf BLUE
+  advertise l2vpn evpn
+  redistribute connected
+
+! ========================================
+! VRF RED Configuration
+! ========================================
+!
+vrf definition RED
+ rd 172.16.0.2:1200
+ !
+ address-family ipv4
+  route-target export 65022:1200
+  route-target import 65022:1200
+  route-target export 65022:1200 stitching
+  route-target import 65022:1200 stitching
+ exit-address-family
+!
+bridge-domain 1200
+ member vni 1601200
+ no shutdown
+!
+interface Loopback1200
+ vrf forwarding RED
+ ip address 10.100.0.1 255.255.255.0
+!
+interface BDI1200
+ vrf forwarding RED
+ ip unnumbered loopback1200
+!
+interface nve1
+ member vni 1601200 vrf RED
+!
+router bgp 65022
+ !
+ address-family ipv4 vrf RED
+  advertise l2vpn evpn
+  redistribute connected
+
+! ========================================
+! VRF GREEN Configuration
+! ========================================
+!
+vrf definition GREEN
+ rd 172.16.0.2:1300
+ !
+ address-family ipv4
+  route-target export 65022:1300
+  route-target import 65022:1300
+  route-target export 65022:1300 stitching
+  route-target import 65022:1300 stitching
+ exit-address-family
+!
+bridge-domain 1300
+ member vni 1601300
+ no shutdown
+!
+interface Loopback1300
+ vrf forwarding GREEN
+ ip address 10.100.0.1 255.255.255.0
+!
+interface BDI1300
+ vrf forwarding GREEN
+ ip unnumbered loopback1300
+!
+interface nve1
+ member vni 1601300 vrf GREEN
+!
+router bgp 65022
+ !
+ address-family ipv4 vrf GREEN
   advertise l2vpn evpn
   redistribute connected
   end
