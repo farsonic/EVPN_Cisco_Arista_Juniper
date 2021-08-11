@@ -82,6 +82,7 @@ vrf definition SERVER
 
 bridge-domain 1100
  member vni 1601101
+ no shutdown
 !
 interface Loopback1100
  vrf forwarding SERVER
