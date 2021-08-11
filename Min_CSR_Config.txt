@@ -13,23 +13,24 @@ interface GigabitEthernet2
  negotiation auto
 !
 interface Loopback0
- ip address 172.200.0.2 255.255.255.255
+ ip address 172.16.0.2 255.255.255.255
 !
 router ospf 1
  network 10.64.8.0 0.0.0.255 area 0
- network 172.200.0.0 0.0.0.255 area 0
+ network 172.16.0.0 0.0.0.255 area 0
 !
 !
 ! ========================================
 ! BGP and VXLAN Overlay
 ! ========================================
 !
+!
 router bgp 65022
- bgp router-id 172.200.0.2
+ bgp router-id 172.16.0.2
  bgp log-neighbor-changes
  no bgp default ipv4-unicast
- neighbor 172.200.0.1 remote-as 65001
- neighbor 172.200.0.1 ebgp-multihop 255
+ neighbor 172.16.0.1 remote-as 65001
+ neighbor 172.16.0.1 ebgp-multihop 255
  !
  address-family ipv4
  exit-address-family
@@ -41,9 +42,9 @@ router bgp 65022
  address-family l2vpn evpn
   import vpnv4 unicast re-originate
   rewrite-evpn-rt-asn
-  neighbor 172.200.0.1 activate
-  neighbor 172.200.0.1 send-community both
-  neighbor 172.200.0.1 soft-reconfiguration inbound
+  neighbor 172.16.0.1 activate
+  neighbor 172.16.0.1 send-community both
+  neighbor 172.16.0.1 soft-reconfiguration inbound
  exit-address-family
  !
  address-family ipv4 vrf SERVER
@@ -66,7 +67,7 @@ interface nve1
 ! ========================================
 !
 vrf definition SERVER
- rd 172.200.0.2:1100
+ rd 172.16.0.2:1100
  !
  address-family ipv4
   route-target export 65022:1100
