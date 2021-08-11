@@ -1,5 +1,6 @@
 ! ========================================
 ! Basic LAN configuration and OSPF support
+! Change for your enviroment
 ! ========================================
 !
 interface GigabitEthernet1
@@ -22,6 +23,7 @@ router ospf 1
 !
 ! ========================================
 ! BGP and VXLAN Overlay
+! This is configured once and should not need to be changed
 ! ========================================
 !
 !
@@ -45,11 +47,6 @@ router bgp 65022
   neighbor 172.16.0.1 activate
   neighbor 172.16.0.1 send-community both
   neighbor 172.16.0.1 soft-reconfiguration inbound
- exit-address-family
- !
- address-family ipv4 vrf BLUE
-  advertise l2vpn evpn
-  redistribute connected
  exit-address-family
 !
 l2vpn evpn
