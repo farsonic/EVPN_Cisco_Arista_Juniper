@@ -1,7 +1,7 @@
 ! ========================================
 ! Basic LAN configuration and OSPF support
 ! ========================================
-
+!
 interface GigabitEthernet1
  description "Managment LAN"
  ip address 192.168.0.199 255.255.255.0
@@ -22,11 +22,12 @@ interface Loopback0
 router ospf 1
  network 10.64.8.0 0.0.0.255 area 0
  network 172.200.0.0 0.0.0.255 area 0
-
-
+!
+!
 ! ========================================
 ! BGP and VXLAN Overlay
 ! ========================================
+!
 router bgp 65022
  bgp router-id 172.200.0.2
  bgp log-neighbor-changes
@@ -63,12 +64,11 @@ interface nve1
  source-interface Loopback0
  host-reachability protocol bgp
 !
-
-
+!
 ! ========================================
 ! VRF Configuration
 ! ========================================
-
+!
 vrf definition SERVER
  rd 172.200.0.2:1100
  !
