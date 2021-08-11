@@ -27,62 +27,6 @@ router ospf 1
 ! ========================================
 ! BGP and VXLAN Overlay
 ! ========================================
-
-
-
-
-
-
-
-
-
-
-! ========================================
-! VRF Configuration
-! ========================================
-
-vrf definition SERVER
- rd 172.200.0.2:1100
- !
- address-family ipv4
-  route-target export 65022:1100
-  route-target import 65022:1100
-  route-target export 65022:1100 stitching
-  route-target import 65022:1100 stitching
- exit-address-family
-!
-l2vpn evpn
- replication-type ingress
- router-id Loopback0
-!
-bridge-domain 1100
- member vni 1601101
-
-
-
-
-
-
-interface Loopback1100
- vrf forwarding SERVER
- ip address 10.100.0.1 255.255.255.0
-!
-interface BDI1100
- vrf forwarding SERVER
- ip address 33.33.33.1 255.255.255.0
- no mop enabled
- no mop sysid
-!
-interface nve1
- no ip address
- source-interface Loopback0
- host-reachability protocol bgp
- member vni 1601101 vrf SERVER
-!
-router ospf 1
- network 10.64.8.0 0.0.0.255 area 0
- network 172.200.0.0 0.0.0.255 area 0
-!
 router bgp 65022
  bgp router-id 172.200.0.2
  bgp log-neighbor-changes
@@ -109,4 +53,56 @@ router bgp 65022
   advertise l2vpn evpn
   redistribute connected
  exit-address-family
+!
+l2vpn evpn
+ replication-type ingress
+ router-id Loopback0
+!
+interface nve1
+ no ip address
+ source-interface Loopback0
+ host-reachability protocol bgp
+!
+
+
+! ========================================
+! VRF Configuration
+! ========================================
+
+vrf definition SERVER
+ rd 172.200.0.2:1100
+ !
+ address-family ipv4
+  route-target export 65022:1100
+  route-target import 65022:1100
+  route-target export 65022:1100 stitching
+  route-target import 65022:1100 stitching
+ exit-address-family
+!
+
+bridge-domain 1100
+ member vni 1601101
+!
+interface Loopback1100
+ vrf forwarding SERVER
+ ip address 10.100.0.1 255.255.255.0
+!
+interface BDI1100
+ vrf forwarding SERVER
+ ip address 33.33.33.1 255.255.255.0
+!
+interface nve1
+ member vni 1601101 vrf SERVER
+!
+router bgp 65022
+ !
+ address-family ipv4 vrf SERVER
+  advertise l2vpn evpn
+  redistribute connected
+
+
+
+
+
+
 
