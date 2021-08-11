@@ -64,7 +64,7 @@ interface nve1
  host-reachability protocol bgp
 !
 ! ========================================
-! VRF BLUE Configuration/Commands
+! VRF BLUE Configuration/Commands  - Identifier 1100
 ! show ip route vrf BLUE
 ! show ip bgp vpnv4 vrf BLUE
 ! show interfaces bdi1100
@@ -104,7 +104,7 @@ router bgp 65022
   redistribute connected
 !
 ! ========================================
-! VRF RED Configuration
+! VRF RED Configuration/Commands  - Identifier 1200
 ! show ip route vrf RED
 ! show ip bgp vpnv4 vrf RED
 ! show interfaces bdi1200
@@ -144,7 +144,7 @@ router bgp 65022
   redistribute connected
 !
 ! ========================================
-! VRF GREEN Configuration
+! VRF GREEN Configuration/Commands  - Identifier 1300
 ! show ip route vrf GREEN
 ! show ip bgp vpnv4 vrf GREEN
 ! show interfaces bdi1300
