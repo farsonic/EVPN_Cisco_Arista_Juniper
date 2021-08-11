@@ -5,7 +5,7 @@
 ! ============================================================================
 !
 interface GigabitEthernet1
- description "Managment LAN"
+ description "Management LAN"
  ip address 192.168.0.199 255.255.255.0
  negotiation auto
 !
