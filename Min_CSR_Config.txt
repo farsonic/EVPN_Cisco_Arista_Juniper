@@ -21,16 +21,15 @@ router ospf 1
  network 172.16.0.0 0.0.0.255 area 0
 !
 !
-! ==========================================================
+! ==================================================================================
 ! BGP and VXLAN Overlay
-! This is configured once and should not need to be changed
+! This is configured once and should not need to be changed as more VRF's are added
 ! sh ip bgp l2vpn evpn summary
 ! show ip bgp l2vpn evpn neighbors 172.16.0.1 advertised-routes
 ! show ip bgp l2vpn evpn neighbors 172.16.0.1 received-routes
 ! show nve peers 
 ! show nve vni
-! ==========================================================
-!
+! ==================================================================================
 !
 router bgp 65022
  bgp router-id 172.16.0.2
@@ -63,7 +62,6 @@ interface nve1
  source-interface Loopback0
  host-reachability protocol bgp
 !
-!
 ! ========================================
 ! VRF BLUE Configuration/Commands
 ! show ip route vrf BLUE
@@ -93,7 +91,6 @@ interface BDI1100
  vrf forwarding BLUE
  ip unnumbered loopback1100
  no shutdown
-
 !
 interface nve1
  member vni 1601100 vrf BLUE
@@ -103,11 +100,12 @@ router bgp 65022
  address-family ipv4 vrf BLUE
   advertise l2vpn evpn
   redistribute connected
-
+!
 ! ========================================
 ! VRF RED Configuration
 ! show ip route vrf RED
-! 
+! show ip bgp vpnv4 vrf RED
+! show interfaces bdi1200
 ! ========================================
 !
 vrf definition RED
@@ -132,7 +130,6 @@ interface BDI1200
  vrf forwarding RED
  ip unnumbered loopback1200
  no shutdown
-
 !
 interface nve1
  member vni 1601200 vrf RED
@@ -142,9 +139,12 @@ router bgp 65022
  address-family ipv4 vrf RED
   advertise l2vpn evpn
   redistribute connected
-
+!
 ! ========================================
 ! VRF GREEN Configuration
+! show ip route vrf GREEN
+! show ip bgp vpnv4 vrf GREEN
+! show interfaces bdi1300
 ! ========================================
 !
 vrf definition GREEN
@@ -169,7 +169,6 @@ interface BDI1300
  vrf forwarding GREEN
  ip unnumbered loopback1300
  no shutdown
-
 !
 interface nve1
  member vni 1601300 vrf GREEN
@@ -179,7 +178,6 @@ router bgp 65022
  address-family ipv4 vrf GREEN
   advertise l2vpn evpn
   redistribute connected
-  end
 
 
 
