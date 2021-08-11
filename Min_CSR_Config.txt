@@ -21,10 +21,15 @@ router ospf 1
  network 172.16.0.0 0.0.0.255 area 0
 !
 !
-! ========================================
+! ==========================================================
 ! BGP and VXLAN Overlay
 ! This is configured once and should not need to be changed
-! ========================================
+! sh ip bgp l2vpn evpn summary
+! show ip bgp l2vpn evpn neighbors 172.16.0.1 advertised-routes
+! show ip bgp l2vpn evpn neighbors 172.16.0.1 received-routes
+! show nve peers 
+! show nve vni
+! ==========================================================
 !
 !
 router bgp 65022
@@ -60,7 +65,10 @@ interface nve1
 !
 !
 ! ========================================
-! VRF BLUE Configuration
+! VRF BLUE Configuration/Commands
+! show ip route vrf BLUE
+! show ip bgp vpnv4 vrf BLUE
+! show interfaces bdi1100
 ! ========================================
 !
 vrf definition BLUE
@@ -98,6 +106,8 @@ router bgp 65022
 
 ! ========================================
 ! VRF RED Configuration
+! show ip route vrf RED
+! 
 ! ========================================
 !
 vrf definition RED
