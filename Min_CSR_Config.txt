@@ -64,38 +64,38 @@ interface nve1
  host-reachability protocol bgp
 !
 ! ========================================
-! VRF BLUE Configuration/Commands  - Identifier 1100
+! VRF BLUE Configuration/Commands  - Identifier 100
 ! show ip route vrf BLUE
 ! show ip bgp vpnv4 vrf BLUE
-! show interfaces bdi1100
-! show nve vni 1601100 detail
+! show interfaces bdi100
+! show nve vni 790001 detail
 ! ========================================
 !
 vrf definition BLUE
- rd 172.16.0.2:1100
+ rd 172.16.0.2:100
  !
  address-family ipv4
-  route-target export 65022:1100
-  route-target import 65022:1100
-  route-target export 65022:1100 stitching
-  route-target import 65022:1100 stitching
+  route-target export 65022:100
+  route-target import 65022:100
+  route-target export 65022:100 stitching
+  route-target import 65022:100 stitching
  exit-address-family
 !
-bridge-domain 1100
- member vni 1601100
+bridge-domain 100
+ member vni 790001
  no shutdown
 !
-interface Loopback1100
+interface Loopback100
  vrf forwarding BLUE
  ip address 10.100.1.1 255.255.255.0
 !
-interface BDI1100
+interface BDI100
  vrf forwarding BLUE
- ip unnumbered loopback1100
+ ip unnumbered loopback100
  no shutdown
 !
 interface nve1
- member vni 1601100 vrf BLUE
+ member vni 790001 vrf BLUE
 !
 router bgp 65022
  !
@@ -104,38 +104,38 @@ router bgp 65022
   redistribute connected
 !
 ! ========================================
-! VRF RED Configuration/Commands  - Identifier 1200
+! VRF RED Configuration/Commands  - Identifier 101
 ! show ip route vrf RED
 ! show ip bgp vpnv4 vrf RED
-! show interfaces bdi1200
-! show nve vni 1601200 detail
+! show interfaces bdi101
+! show nve vni 790002 detail
 ! ========================================
 !
 vrf definition RED
- rd 172.16.0.2:1200
+ rd 172.16.0.2:101
  !
  address-family ipv4
-  route-target export 65022:1200
-  route-target import 65022:1200
-  route-target export 65022:1200 stitching
-  route-target import 65022:1200 stitching
+  route-target export 65022:101
+  route-target import 65022:101
+  route-target export 65022:101 stitching
+  route-target import 65022:101 stitching
  exit-address-family
 !
-bridge-domain 1200
- member vni 1601200
+bridge-domain 101
+ member vni 790002
  no shutdown
 !
-interface Loopback1200
+interface Loopback101
  vrf forwarding RED
  ip address 10.100.2.1 255.255.255.0
 !
-interface BDI1200
+interface BDI101
  vrf forwarding RED
- ip unnumbered loopback1200
+ ip unnumbered loopback101
  no shutdown
 !
 interface nve1
- member vni 1601200 vrf RED
+ member vni 790002 vrf RED
 !
 router bgp 65022
  !
@@ -144,38 +144,38 @@ router bgp 65022
   redistribute connected
 !
 ! ========================================
-! VRF GREEN Configuration/Commands  - Identifier 1300
+! VRF GREEN Configuration/Commands  - Identifier 102
 ! show ip route vrf GREEN
 ! show ip bgp vpnv4 vrf GREEN
-! show interfaces bdi1300
-! show nve vni 1601300 detail
+! show interfaces bdi102
+! show nve vni 790003 detail
 ! ========================================
 !
 vrf definition GREEN
- rd 172.16.0.2:1300
+ rd 172.16.0.2:102
  !
  address-family ipv4
-  route-target export 65022:1300
-  route-target import 65022:1300
-  route-target export 65022:1300 stitching
-  route-target import 65022:1300 stitching
+  route-target export 65022:102
+  route-target import 65022:102
+  route-target export 65022:102 stitching
+  route-target import 65022:102 stitching
  exit-address-family
 !
-bridge-domain 1300
- member vni 1601300
+bridge-domain 102
+ member vni 790003
  no shutdown
 !
-interface Loopback1300
+interface Loopback102
  vrf forwarding GREEN
  ip address 10.100.3.1 255.255.255.0
 !
-interface BDI1300
+interface BDI102
  vrf forwarding GREEN
- ip unnumbered loopback1300
+ ip unnumbered loopback102
  no shutdown
 !
 interface nve1
- member vni 1601300 vrf GREEN
+ member vni 790003 vrf GREEN
 !
 router bgp 65022
  !
