@@ -6,15 +6,11 @@ interface GigabitEthernet1
  description "Managment LAN"
  ip address 192.168.0.199 255.255.255.0
  negotiation auto
- no mop enabled
- no mop sysid
 !
 interface GigabitEthernet2
  description "Connection to NSX-T TO Gateway" 
  ip address 10.64.8.50 255.255.255.0
  negotiation auto
- no mop enabled
- no mop sysid
 !
 interface Loopback0
  ip address 172.200.0.2 255.255.255.255
@@ -79,9 +75,8 @@ vrf definition SERVER
   route-target import 65022:1100 stitching
  exit-address-family
 !
-
 bridge-domain 1100
- member vni 1601101
+ member vni 1601100
  no shutdown
 !
 interface Loopback1100
@@ -93,14 +88,14 @@ interface BDI1100
  ip address 33.33.33.1 255.255.255.0
 !
 interface nve1
- member vni 1601101 vrf SERVER
+ member vni 1601100 vrf SERVER
 !
 router bgp 65022
  !
  address-family ipv4 vrf SERVER
   advertise l2vpn evpn
   redistribute connected
-
+  end
 
 
 
