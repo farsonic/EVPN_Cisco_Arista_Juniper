@@ -1,7 +1,8 @@
-! ========================================
+! ============================================================================
 ! Basic LAN configuration and OSPF support
+! OSPF only need to provide connectivity or BGP loopbacks and VTEP interfaces 
 ! Change for your enviroment
-! ========================================
+! ============================================================================
 !
 interface GigabitEthernet1
  description "Managment LAN"
@@ -67,6 +68,7 @@ interface nve1
 ! show ip route vrf BLUE
 ! show ip bgp vpnv4 vrf BLUE
 ! show interfaces bdi1100
+! show nve vni 1601100 detail
 ! ========================================
 !
 vrf definition BLUE
@@ -106,6 +108,7 @@ router bgp 65022
 ! show ip route vrf RED
 ! show ip bgp vpnv4 vrf RED
 ! show interfaces bdi1200
+! show nve vni 1601200 detail
 ! ========================================
 !
 vrf definition RED
@@ -145,6 +148,7 @@ router bgp 65022
 ! show ip route vrf GREEN
 ! show ip bgp vpnv4 vrf GREEN
 ! show interfaces bdi1300
+! show nve vni 1601300 detail
 ! ========================================
 !
 vrf definition GREEN
