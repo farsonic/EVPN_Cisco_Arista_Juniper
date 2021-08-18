@@ -50,6 +50,9 @@ router bgp 65022
  !
  address-family vpnv4
   import l2vpn evpn re-originate
+  neighbor 172.200.0.3 activate
+  neighbor 172.200.0.3 send-community extended
+  neighbor 172.200.0.3 next-hop-self
  exit-address-family
  !
  address-family l2vpn evpn
