@@ -4,20 +4,20 @@
 ! Change for your enviroment
 ! ============================================================================
 !
+interface Loopback0
+ ip address 172.16.0.2 255.255.255.255
+!
 interface GigabitEthernet1
  description "Management LAN"
  ip address 192.168.0.199 255.255.255.0
 !
 interface GigabitEthernet2
- description "Core network" 
+ description "Core network link to PE2" 
  ip address 10.0.0.1 255.255.255.0
  !
 interface GigabitEthernet2
  description "Connection to NSX-T TO Gateway" 
  ip address 10.64.8.50 255.255.255.0
-!
-interface Loopback0
- ip address 172.16.0.2 255.255.255.255
 !
 router ospf 1
  network 10.0.0.0 0.0.0.255 area 0

@@ -1,0 +1,79 @@
+! ============================================================================
+! Basic LAN configuration and OSPF support
+! OSPF only need to provide connectivity or BGP loopbacks and VTEP interfaces 
+! Change for your enviroment
+! ============================================================================
+!
+interface Loopback0
+ ip address 172.200.0.3 255.255.255.255
+!
+interface GigabitEthernet1
+ description "Management LAN"
+ ip address 192.168.0.200 255.255.255.0
+!
+interface GigabitEthernet2
+ description "Core network link to PE1" 
+ ip address 10.0.0.2 255.255.255.0
+!
+interface GigabitEthernet3.1100
+ encapsulation dot1Q 1100
+ vrf forwarding SERVER
+ ip address 10.11.0.1 255.255.255.0
+!
+router ospf 1
+ network 10.0.0.0 0.0.0.255 area 0
+ network 172.200.0.0 0.0.0.255 area 0
+ mpls ldp autoconfig
+!
+! ==================================================================================
+! BGP and VXLAN Overlay
+! This is configured once and should not need to be changed as more VRF's are added
+! sh ip bgp l2vpn evpn summary
+! show ip bgp l2vpn evpn neighbors 172.16.0.1 advertised-routes
+! show ip bgp l2vpn evpn neighbors 172.16.0.1 received-routes
+! show nve peers 
+! show nve vni
+! ==================================================================================
+!
+router bgp 65022
+ bgp log-neighbor-changes
+ redistribute connected
+ neighbor 172.200.0.2 remote-as 65022
+ neighbor 172.200.0.2 update-source Loopback0
+ neighbor 172.200.0.2 soft-reconfiguration inbound
+ !
+ address-family vpnv4
+  neighbor 172.200.0.2 activate
+  neighbor 172.200.0.2 send-community extended
+  neighbor 172.200.0.2 next-hop-self
+ exit-address-family
+ !
+ !
+! ========================================
+! VRF BLUE Configuration/Commands  - Identifier 100
+! show ip route vrf BLUE
+! show ip bgp vpnv4 vrf BLUE
+! ========================================
+!
+interface GigabitEthernet3.1100
+ encapsulation dot1Q 1100
+ vrf forwarding SERVER
+ ip address 10.11.0.1 255.255.255.0
+!
+ip route vrf SERVER 0.0.0.0 0.0.0.0 10.11.0.254
+!
+vrf definition SERVER
+ rd 172.200.0.3:1100
+ !
+ address-family ipv4
+  route-target export 65022:1100
+  route-target import 65022:1100
+ exit-address-family
+!
+router bgp 65022
+ !
+ address-family ipv4 vrf SERVER
+  redistribute connected
+  redistribute static
+  default-information originate
+ exit-address-family
