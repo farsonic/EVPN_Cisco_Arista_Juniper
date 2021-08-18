@@ -37,6 +37,8 @@ router bgp 65022
  bgp log-neighbor-changes
  no bgp default ipv4-unicast
  neighbor 172.16.0.1 remote-as 65001
+ neighbor 172.16.0.1 next-hop-self
+ neighbor 172.16.0.1 soft-reconfiguration inbound
  neighbor 172.16.0.1 ebgp-multihop 255
  !
  address-family ipv4
