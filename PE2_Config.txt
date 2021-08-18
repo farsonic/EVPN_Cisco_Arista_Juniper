@@ -26,13 +26,12 @@ router ospf 1
  mpls ldp autoconfig
 !
 ! ==================================================================================
-! BGP and VXLAN Overlay
+! BGP and MPLS Overlay
 ! This is configured once and should not need to be changed as more VRF's are added
 ! sh ip bgp l2vpn evpn summary
 ! show ip bgp l2vpn evpn neighbors 172.16.0.1 advertised-routes
 ! show ip bgp l2vpn evpn neighbors 172.16.0.1 received-routes
-! show nve peers 
-! show nve vni
+
 ! ==================================================================================
 !
 router bgp 65022
