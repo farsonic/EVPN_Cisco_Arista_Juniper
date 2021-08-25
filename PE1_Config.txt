@@ -15,7 +15,7 @@ interface GigabitEthernet2
  description "Core network link to PE2" 
  ip address 10.0.0.1 255.255.255.0
  !
-interface GigabitEthernet2
+interface GigabitEthernet3
  description "Connection to NSX-T TO Gateway" 
  ip address 10.64.8.50 255.255.255.0
 !
@@ -25,6 +25,7 @@ router ospf 1
  network 172.16.0.0 0.0.0.255 area 0
  mpls ldp autoconfig
 !
+exit
 !
 ! ==================================================================================
 ! BGP and VXLAN Overlay
@@ -63,6 +64,8 @@ router bgp 65022
   neighbor 172.16.0.1 soft-reconfiguration inbound
  exit-address-family
 !
+exit
+!
 l2vpn evpn
  replication-type ingress
  router-id Loopback0
@@ -71,6 +74,8 @@ interface nve1
  no ip address
  source-interface Loopback0
  host-reachability protocol bgp
+!
+exit
 !
 ! ==================================================================================
 ! VRF RED Configuration/Commands  - Identifier 100
@@ -114,6 +119,10 @@ router bgp 65022
   advertise l2vpn evpn
   redistribute connected
 !
+exit
+!
+exit
+!
 ! ==================================================================================
 ! VRF GREEN Configuration/Commands  - Identifier 101
 ! show ip route vrf GREEN
@@ -155,6 +164,10 @@ router bgp 65022
  address-family ipv4 vrf GREEN
   advertise l2vpn evpn
   redistribute connected
+exit
+!
+exit
+!
 ! ==================================================================================
 ! VRF BLUE Configuration/Commands  - Identifier 102
 ! show ip route vrf BLUE
@@ -197,6 +210,11 @@ router bgp 65022
   advertise l2vpn evpn
   redistribute connected
 !
+exit
+!
+exit
+!
+
 
 
 
