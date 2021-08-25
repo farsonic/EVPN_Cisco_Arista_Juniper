@@ -20,7 +20,7 @@ interface GigabitEthernet3
 !
 router ospf 1
  network 10.0.0.0 0.0.0.255 area 0
- network 172.200.0.0 0.0.0.255 area 0
+ network 172.16.0.0 0.0.0.255 area 0
  mpls ldp autoconfig
 !
 ! ==================================================================================
@@ -34,30 +34,30 @@ router ospf 1
 router bgp 65022
  bgp log-neighbor-changes
  redistribute connected
- neighbor 172.200.0.2 remote-as 65022
- neighbor 172.200.0.2 update-source Loopback0
- neighbor 172.200.0.2 soft-reconfiguration inbound
+ neighbor 172.16.0.2 remote-as 65022
+ neighbor 172.16.0.2 update-source Loopback0
+ neighbor 172.16.0.2 soft-reconfiguration inbound
  !
  address-family vpnv4
-  neighbor 172.200.0.2 activate
-  neighbor 172.200.0.2 send-community extended
-  neighbor 172.200.0.2 next-hop-self
+  neighbor 172.16.0.2 activate
+  neighbor 172.16.0.2 send-community extended
+  neighbor 172.16.0.2 next-hop-self
  exit-address-family
 !
-! ========================================
-! VRF BLUE Configuration/Commands  - Identifier 100
-! show ip route vrf BLUE
-! show ip bgp vpnv4 vrf BLUE
-! ========================================
+! ==================================================================================
+! VRF RED Configuration/Commands  - Identifier 100
+! show ip route vrf RED
+! show ip bgp vpnv4 vrf RED
+! ==================================================================================
 !
-interface GigabitEthernet3.1100
- encapsulation dot1Q 1100
- vrf forwarding BLUE
+interface GigabitEthernet3.100
+ encapsulation dot1Q 100
+ vrf forwarding RED
  ip address 10.100.1.1 255.255.255.0
 !
-ip route vrf BLUE 0.0.0.0 0.0.0.0 10.100.1.254
+ip route vrf RED 0.0.0.0 0.0.0.0 10.100.1.254
 !
-vrf definition BLUE
+vrf definition RED
  rd 172.16.0.3:100
  !
  address-family ipv4
@@ -67,23 +67,23 @@ vrf definition BLUE
 !
 router bgp 65022
  !
- address-family ipv4 vrf BLUE
+ address-family ipv4 vrf RED
   redistribute connected
   redistribute static
   default-information originate
 !
 ! ==================================================================================
-! VRF RED Configuration/Commands  - Identifier 101
-! show ip route vrf RED
-! show ip bgp vpnv4 vrf RED
+! VRF GREEN Configuration/Commands  - Identifier 101
+! show ip route vrf GREEN
+! show ip bgp vpnv4 vrf GREEN
 ! ==================================================================================
 !
-interface GigabitEthernet3.1101
- encapsulation dot1Q 1101
- vrf forwarding RED
+interface GigabitEthernet3.101
+ encapsulation dot1Q 101
+ vrf forwarding GREEN
  ip address 10.101.1.1 255.255.255.0
 !
-ip route vrf RED 0.0.0.0 0.0.0.0 10.101.1.254
+ip route vrf GREEN 0.0.0.0 0.0.0.0 10.101.1.254
 !
 vrf definition RED
  rd 172.16.0.3:101
@@ -95,25 +95,25 @@ vrf definition RED
 !
 router bgp 65022
  !
- address-family ipv4 vrf RED
+ address-family ipv4 vrf GREEN
   redistribute connected
   redistribute static
   default-information originate
 !
-! ==================================================================================
-! VRF GREEN Configuration/Commands  - Identifier 102
-! show ip route vrf GREEN
-! show ip bgp vpnv4 vrf GREEN
-! ==================================================================================
+! ========================================
+! VRF BLUE Configuration/Commands  - Identifier 102
+! show ip route vrf BLUE
+! show ip bgp vpnv4 vrf BLUE
+! ========================================
 !
-interface GigabitEthernet3.1102
- encapsulation dot1Q 1102
- vrf forwarding GREEN
+interface GigabitEthernet3.102
+ encapsulation dot1Q 102
+ vrf forwarding BLUE
  ip address 10.102.1.1 255.255.255.0
 !
-ip route vrf GREEN 0.0.0.0 0.0.0.0 10.102.1.254
+ip route vrf BLUE 0.0.0.0 0.0.0.0 10.102.1.254
 !
-vrf definition RED
+vrf definition BLUE
  rd 172.16.0.3:102
  !
  address-family ipv4
@@ -121,10 +121,10 @@ vrf definition RED
   route-target import 65022:102
  exit-address-family
 !
-
 router bgp 65022
  !
- address-family ipv4 vrf RED
+ address-family ipv4 vrf BLUE
   redistribute connected
   redistribute static
   default-information originate
+!

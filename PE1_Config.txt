@@ -50,9 +50,9 @@ router bgp 65022
  !
  address-family vpnv4
   import l2vpn evpn re-originate
-  neighbor 172.200.0.3 activate
-  neighbor 172.200.0.3 send-community extended
-  neighbor 172.200.0.3 next-hop-self
+  neighbor 172.16.0.3 activate
+  neighbor 172.16.0.3 send-community extended
+  neighbor 172.16.0.3 next-hop-self
  exit-address-family
  !
  address-family l2vpn evpn
@@ -73,14 +73,14 @@ interface nve1
  host-reachability protocol bgp
 !
 ! ==================================================================================
-! VRF BLUE Configuration/Commands  - Identifier 100
-! show ip route vrf BLUE
-! show ip bgp vpnv4 vrf BLUE
+! VRF RED Configuration/Commands  - Identifier 100
+! show ip route vrf RED
+! show ip bgp vpnv4 vrf RED
 ! show interfaces bdi100
-! show nve vni 790001 detail
+! show nve vni 790000 detail
 ! ==================================================================================
 !
-vrf definition BLUE
+vrf definition RED
  rd 172.16.0.2:100
  !
  address-family ipv4
@@ -93,36 +93,36 @@ vrf definition BLUE
 exit
 !
 bridge-domain 100
- member vni 790001
+ member vni 790000
  no shutdown
 !
 interface Loopback100
- vrf forwarding BLUE
- ip address 10.100.10.1 255.255.255.255
+ vrf forwarding RED
+ ip address 172.16.100.1 255.255.255.255
 !
 interface BDI100
- vrf forwarding BLUE
+ vrf forwarding RED
  ip unnumbered loopback100
  no shutdown
 !
 interface nve1
- member vni 790001 vrf BLUE
+ member vni 790000 vrf RED
 !
 router bgp 65022
  !
- address-family ipv4 vrf BLUE
+ address-family ipv4 vrf RED
   advertise l2vpn evpn
   redistribute connected
 !
 ! ==================================================================================
-! VRF RED Configuration/Commands  - Identifier 101
-! show ip route vrf RED
-! show ip bgp vpnv4 vrf RED
+! VRF GREEN Configuration/Commands  - Identifier 101
+! show ip route vrf GREEN
+! show ip bgp vpnv4 vrf GREEN
 ! show interfaces bdi101
-! show nve vni 790002 detail
+! show nve vni 790001 detail
 ! ==================================================================================
 !
-vrf definition RED
+vrf definition GREEN
  rd 172.16.0.2:101
  !
  address-family ipv4
@@ -135,36 +135,35 @@ vrf definition RED
 exit
 !
 bridge-domain 101
- member vni 790002
+ member vni 790001
  no shutdown
 !
 interface Loopback101
- vrf forwarding RED
- ip address 10.100.11.1 255.255.255.255
+ vrf forwarding GREEN
+ ip address 172.16.101.1 255.255.255.255
 !
 interface BDI101
- vrf forwarding RED
+ vrf forwarding GREEN
  ip unnumbered loopback101
  no shutdown
 !
 interface nve1
- member vni 790002 vrf RED
+ member vni 790001 vrf GREEN
 !
 router bgp 65022
  !
- address-family ipv4 vrf RED
+ address-family ipv4 vrf GREEN
   advertise l2vpn evpn
   redistribute connected
-!
 ! ==================================================================================
-! VRF GREEN Configuration/Commands  - Identifier 102
-! show ip route vrf GREEN
-! show ip bgp vpnv4 vrf GREEN
+! VRF BLUE Configuration/Commands  - Identifier 102
+! show ip route vrf BLUE
+! show ip bgp vpnv4 vrf BLUE
 ! show interfaces bdi102
-! show nve vni 790003 detail
+! show nve vni 790002 detail
 ! ==================================================================================
 !
-vrf definition GREEN
+vrf definition BLUE
  rd 172.16.0.2:102
  !
  address-family ipv4
@@ -177,26 +176,27 @@ vrf definition GREEN
 exit
 !
 bridge-domain 102
- member vni 790003
+ member vni 790002
  no shutdown
 !
 interface Loopback102
- vrf forwarding GREEN
- ip address 10.100.12.1 255.255.255.255
+ vrf forwarding BLUE
+ ip address 172.168.102.1 255.255.255.255
 !
 interface BDI102
- vrf forwarding GREEN
+ vrf forwarding BLUE
  ip unnumbered loopback102
  no shutdown
 !
 interface nve1
- member vni 790003 vrf GREEN
+ member vni 790002 vrf BLUE
 !
 router bgp 65022
  !
- address-family ipv4 vrf GREEN
+ address-family ipv4 vrf BLUE
   advertise l2vpn evpn
   redistribute connected
+!
 
 
 
