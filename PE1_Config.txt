@@ -164,6 +164,7 @@ router bgp 65022
  address-family ipv4 vrf GREEN
   advertise l2vpn evpn
   redistribute connected
+!
 exit
 !
 exit
