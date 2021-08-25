@@ -195,7 +195,7 @@ bridge-domain 102
 !
 interface Loopback102
  vrf forwarding BLUE
- ip address 172.168.102.1 255.255.255.255
+ ip address 172.16.102.1 255.255.255.255
 !
 interface BDI102
  vrf forwarding BLUE
