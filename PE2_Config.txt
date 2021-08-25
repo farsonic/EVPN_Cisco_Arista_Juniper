@@ -50,13 +50,6 @@ router bgp 65022
 ! show ip bgp vpnv4 vrf RED
 ! ==================================================================================
 !
-interface GigabitEthernet3.100
- encapsulation dot1Q 100
- vrf forwarding RED
- ip address 10.100.1.1 255.255.255.0
-!
-ip route vrf RED 0.0.0.0 0.0.0.0 10.100.1.254
-!
 vrf definition RED
  rd 172.16.0.3:100
  !
@@ -65,18 +58,35 @@ vrf definition RED
   route-target import 65022:100
  exit-address-family
 !
+interface GigabitEthernet3.100
+ encapsulation dot1Q 100
+ vrf forwarding RED
+ ip address 10.100.1.1 255.255.255.0
+!
+ip route vrf RED 0.0.0.0 0.0.0.0 10.100.1.254
+!
 router bgp 65022
  !
  address-family ipv4 vrf RED
   redistribute connected
   redistribute static
   default-information originate
+  exit-address-family
+exit
 !
 ! ==================================================================================
 ! VRF GREEN Configuration/Commands  - Identifier 101
 ! show ip route vrf GREEN
 ! show ip bgp vpnv4 vrf GREEN
 ! ==================================================================================
+!
+vrf definition GREEN
+ rd 172.16.0.3:101
+ !
+ address-family ipv4
+  route-target export 65022:101
+  route-target import 65022:101
+ exit-address-family
 !
 interface GigabitEthernet3.101
  encapsulation dot1Q 101
@@ -85,33 +95,20 @@ interface GigabitEthernet3.101
 !
 ip route vrf GREEN 0.0.0.0 0.0.0.0 10.101.1.254
 !
-vrf definition RED
- rd 172.16.0.3:101
- !
- address-family ipv4
-  route-target export 65022:101
-  route-target import 65022:101
- exit-address-family
-!
 router bgp 65022
  !
  address-family ipv4 vrf GREEN
   redistribute connected
   redistribute static
   default-information originate
+  exit-address-family
+exit
 !
 ! ========================================
 ! VRF BLUE Configuration/Commands  - Identifier 102
 ! show ip route vrf BLUE
 ! show ip bgp vpnv4 vrf BLUE
 ! ========================================
-!
-interface GigabitEthernet3.102
- encapsulation dot1Q 102
- vrf forwarding BLUE
- ip address 10.102.1.1 255.255.255.0
-!
-ip route vrf BLUE 0.0.0.0 0.0.0.0 10.102.1.254
 !
 vrf definition BLUE
  rd 172.16.0.3:102
@@ -121,10 +118,20 @@ vrf definition BLUE
   route-target import 65022:102
  exit-address-family
 !
+interface GigabitEthernet3.102
+ encapsulation dot1Q 102
+ vrf forwarding BLUE
+ ip address 10.102.1.1 255.255.255.0
+!
+ip route vrf BLUE 0.0.0.0 0.0.0.0 10.102.1.254
+!
 router bgp 65022
  !
  address-family ipv4 vrf BLUE
   redistribute connected
   redistribute static
   default-information originate
+  exit-address-family
+exit
 !
+end
