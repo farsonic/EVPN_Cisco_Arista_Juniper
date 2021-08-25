@@ -72,13 +72,13 @@ interface nve1
  source-interface Loopback0
  host-reachability protocol bgp
 !
-! ==================================================
+! ==================================================================================
 ! VRF BLUE Configuration/Commands  - Identifier 100
 ! show ip route vrf BLUE
 ! show ip bgp vpnv4 vrf BLUE
 ! show interfaces bdi100
 ! show nve vni 790001 detail
-! ==================================================
+! ==================================================================================
 !
 vrf definition BLUE
  rd 172.16.0.2:100
@@ -114,13 +114,13 @@ router bgp 65022
   advertise l2vpn evpn
   redistribute connected
 !
-! ==================================================
+! ==================================================================================
 ! VRF RED Configuration/Commands  - Identifier 101
 ! show ip route vrf RED
 ! show ip bgp vpnv4 vrf RED
 ! show interfaces bdi101
 ! show nve vni 790002 detail
-! ==================================================
+! ==================================================================================
 !
 vrf definition RED
  rd 172.16.0.2:101
@@ -156,13 +156,13 @@ router bgp 65022
   advertise l2vpn evpn
   redistribute connected
 !
-! ==================================================
+! ==================================================================================
 ! VRF GREEN Configuration/Commands  - Identifier 102
 ! show ip route vrf GREEN
 ! show ip bgp vpnv4 vrf GREEN
 ! show interfaces bdi102
 ! show nve vni 790003 detail
-! ==================================================
+! ==================================================================================
 !
 vrf definition GREEN
  rd 172.16.0.2:102
