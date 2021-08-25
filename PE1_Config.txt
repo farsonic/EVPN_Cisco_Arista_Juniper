@@ -72,13 +72,13 @@ interface nve1
  source-interface Loopback0
  host-reachability protocol bgp
 !
-! ========================================
+! ==================================================
 ! VRF BLUE Configuration/Commands  - Identifier 100
 ! show ip route vrf BLUE
 ! show ip bgp vpnv4 vrf BLUE
 ! show interfaces bdi100
 ! show nve vni 790001 detail
-! ========================================
+! ==================================================
 !
 vrf definition BLUE
  rd 172.16.0.2:100
@@ -90,13 +90,15 @@ vrf definition BLUE
   route-target import 65022:100 stitching
  exit-address-family
 !
+exit
+!
 bridge-domain 100
  member vni 790001
  no shutdown
 !
 interface Loopback100
  vrf forwarding BLUE
- ip address 10.100.1.1 255.255.255.0
+ ip address 10.100.10.1 255.255.255.255
 !
 interface BDI100
  vrf forwarding BLUE
@@ -112,13 +114,13 @@ router bgp 65022
   advertise l2vpn evpn
   redistribute connected
 !
-! ========================================
+! ==================================================
 ! VRF RED Configuration/Commands  - Identifier 101
 ! show ip route vrf RED
 ! show ip bgp vpnv4 vrf RED
 ! show interfaces bdi101
 ! show nve vni 790002 detail
-! ========================================
+! ==================================================
 !
 vrf definition RED
  rd 172.16.0.2:101
@@ -130,13 +132,15 @@ vrf definition RED
   route-target import 65022:101 stitching
  exit-address-family
 !
+exit
+!
 bridge-domain 101
  member vni 790002
  no shutdown
 !
 interface Loopback101
  vrf forwarding RED
- ip address 10.100.2.1 255.255.255.0
+ ip address 10.100.11.1 255.255.255.255
 !
 interface BDI101
  vrf forwarding RED
@@ -152,13 +156,13 @@ router bgp 65022
   advertise l2vpn evpn
   redistribute connected
 !
-! ========================================
+! ==================================================
 ! VRF GREEN Configuration/Commands  - Identifier 102
 ! show ip route vrf GREEN
 ! show ip bgp vpnv4 vrf GREEN
 ! show interfaces bdi102
 ! show nve vni 790003 detail
-! ========================================
+! ==================================================
 !
 vrf definition GREEN
  rd 172.16.0.2:102
@@ -170,13 +174,15 @@ vrf definition GREEN
   route-target import 65022:102 stitching
  exit-address-family
 !
+exit
+!
 bridge-domain 102
  member vni 790003
  no shutdown
 !
 interface Loopback102
  vrf forwarding GREEN
- ip address 10.100.3.1 255.255.255.0
+ ip address 10.100.12.1 255.255.255.255
 !
 interface BDI102
  vrf forwarding GREEN
