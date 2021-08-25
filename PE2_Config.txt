@@ -29,7 +29,6 @@ router ospf 1
 ! sh ip bgp l2vpn evpn summary
 ! show ip bgp l2vpn evpn neighbors 172.16.0.1 advertised-routes
 ! show ip bgp l2vpn evpn neighbors 172.16.0.1 received-routes
-
 ! ==================================================================================
 !
 router bgp 65022
@@ -73,11 +72,11 @@ router bgp 65022
   redistribute static
   default-information originate
 !
-! ========================================
+! ==================================================================================
 ! VRF RED Configuration/Commands  - Identifier 101
 ! show ip route vrf RED
 ! show ip bgp vpnv4 vrf RED
-! ========================================
+! ==================================================================================
 !
 interface GigabitEthernet3.1101
  encapsulation dot1Q 1101
@@ -101,11 +100,11 @@ router bgp 65022
   redistribute static
   default-information originate
 !
-! ========================================
+! ==================================================================================
 ! VRF GREEN Configuration/Commands  - Identifier 102
 ! show ip route vrf GREEN
 ! show ip bgp vpnv4 vrf GREEN
-! ========================================
+! ==================================================================================
 !
 interface GigabitEthernet3.1102
  encapsulation dot1Q 1102
